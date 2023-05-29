@@ -1,12 +1,9 @@
 # betfair_sp
-Betfair Starting Price csv files
 
-Folders
-
-# data
+# data Folder
 contains the files downloaded 
 
-# code
+# code Folder
 contains the python code to 
 
 A) download these files from https://promo.betfair.com/betfairsp/prices/
