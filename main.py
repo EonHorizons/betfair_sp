@@ -11,7 +11,7 @@ import delete_duplicates as dd
 url = 'https://promo.betfair.com/betfairsp/prices/'
 
 # Github repo folder destination
-download_folder = '/workspaces/betfair_sp/data'
+download_folder = 'data/'
 
 # GET request to webpage to retrieve  HTML content
 response = requests.get(url)
