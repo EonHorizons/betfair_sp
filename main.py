@@ -2,14 +2,18 @@ import requests
 from lxml import html
 import wget
 import datetime
+import time
 import os
 import delete_duplicates as dd
+
+start = time.perf_counter()
 
 # Website URL
 url = 'https://promo.betfair.com/betfairsp/prices/'
 
 # Github repo folder destination
 download_folder = 'data/'
+# download_folder = '/workspaces/betfair_sp/data'
 
 # GET request to webpage to retrieve  HTML content
 response = requests.get(url)
@@ -116,6 +120,7 @@ def download_files():
 dd.delete_files_not_ending_with_csv(download_folder)
 
 
+
 # Run the script
 if __name__ == "__main__":
     # User selection uncomment code line below and delete download_newest
@@ -124,5 +129,7 @@ if __name__ == "__main__":
     # option 4 - Download all files - Github actions workflow runs this option only.
     download_newest()
 
+end = time.perf_counter()
+print(end - start)
 
 """ This script allows for user input to choose download option """
