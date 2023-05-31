@@ -12,8 +12,8 @@ start = time.perf_counter()
 url = 'https://promo.betfair.com/betfairsp/prices/'
 
 # Github repo folder destination
-download_folder = 'data/'
-# download_folder = '/workspaces/betfair_sp/data'
+# download_folder = 'data/'
+download_folder = '/workspaces/betfair_sp/data'
 
 # GET request to webpage to retrieve  HTML content
 response = requests.get(url)
@@ -124,10 +124,10 @@ dd.delete_files_not_ending_with_csv(download_folder)
 # Run the script
 if __name__ == "__main__":
     # User selection uncomment code line below and delete download_newest
-    # download_files()
+    download_files()
 
     # option 4 - Download all files - Github actions workflow runs this option only.
-    download_newest()
+    # download_newest()
 
 end = time.perf_counter()
 print(end - start)
