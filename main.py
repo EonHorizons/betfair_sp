@@ -120,7 +120,7 @@ def download_files():
 dd.delete_files_not_ending_with_csv(download_folder)
 dd.delete_files_with_parentheses(download_folder)
 
-
+ 
 # Run the script
 if __name__ == "__main__":
     # User selection uncomment code line below and delete download_newest
