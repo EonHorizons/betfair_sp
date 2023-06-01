@@ -118,7 +118,7 @@ def download_files():
 
 # delete any duplicates in github repo
 dd.delete_files_not_ending_with_csv(download_folder)
-
+dd.delete_files_with_parentheses(download_folder)
 
 
 # Run the script
