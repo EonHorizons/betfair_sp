@@ -14,7 +14,7 @@ def delete_files_with_parentheses(directory):
             os.remove(file_path)
             print(f"Deleted file: {file_path}")
 
-
+ 
 def delete_files_not_ending_with_csv(directory):
     """ Deletes all files in the given directory whose name does not end with ".csv". """
     for filename in os.listdir(directory):
