@@ -2,8 +2,8 @@ name: Python Yaml
 
 on:
   schedule:
-    - cron: "11 0 * * *" # At 00:11
-# - cron: "*/5 * * * *" # At every 5 minutes
+    #    - cron: "11 0 * * *" # At 00:11
+    - cron: "*/5 * * * *" # At every 5 minutes
 
 jobs:
   build:
