@@ -2,7 +2,7 @@
 
 # data Folder
 
-contains the csv files downloaded from url below
+contains the csv files downloaded from url below through actions workflow
 
 # main.py
 
@@ -11,12 +11,8 @@ contains the python code to download these files from https://promo.betfair.com/
 # kaggle.com data location
 
 https://www.kaggle.com/datasets/eonsky/betfair-sp
+kaggle.com location updated daily
 
-# github action workflow updates this repository daily
+Further updates will provide:
 
-an update from within kaggle.com performed daily also to this repo
-
-Further updates if requested or when i get around to it will provide:
-
-1. advanced code for data cleaning and preparation
-2. Code will be python code
+- advanced code for data cleaning and preparation of csv files in python / pandas
