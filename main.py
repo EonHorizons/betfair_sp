@@ -121,8 +121,8 @@ def download_files():
 # Run the script
 if __name__ == "__main__":
 
-    # Download newest files - Github actions workflow option only.
-    download_newest()
+    # Download files not yet downloaded - Github actions workflow option only.
+    download_new()
 
     # delete any duplicates in github repo
     dd.delete_files_not_ending_with_csv(download_folder)
