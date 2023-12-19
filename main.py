@@ -1,18 +1,21 @@
 import requests
 from lxml import html
 import wget
-import datetime
-import time
 import os
 import delete_duplicates as dd
+import re
+import datetime
 
-start = time.perf_counter()
 
 # Website URL
 url = 'https://promo.betfair.com/betfairsp/prices/'
 
 # Github actions workflow folder destination
-download_folder = 'data/'
+# download_folder = 'data/'
+
+# local pc  path
+download_folder = './data'  # Adjust the path as necessary
+base_path = './data'  # Adjust the path as necessary
 
 # Codespace folder destination
 # download_folder = '/workspaces/betfair_sp/data'
@@ -30,34 +33,9 @@ text = doc.text_content()
 csv_links = [word for word in text.split() if word.endswith('.csv')]
 
 
-# 1st download option:
-# Download all files from url
-# ! Beware more than 50,000 files in this option
-def download_all():
-    for link in csv_links:
-        wget.download(url+link, download_folder, bar=None)
-
-
-# 2nd download option:
-# Download files between a date range
-def download_range(start_date=None, end_date=None):
-    for link in csv_links:
-
-        # Extract date from filename
-        file_date = datetime.datetime.strptime(
-            link[-12:-4], '%d%m%Y')
-
-        # Download the file if it falls within the date range
-        if start_date <= file_date <= end_date:
-            wget.download(url+link, out=download_folder, bar=None)
-        elif file_date < start_date:
-            break
-
-
-# 3rd download option:
-# Download files not yet downloaded
-# ! Beware - total file count is > 50,000
-def download_new():
+# Download files not yet downloaded. BSP webpage has more than 50k files.
+# todo update code to check for latest file names and not all csv files listed on BSP page
+def download_old():
     # Get list of all CSV files already downloaded
     downloaded_files = [f for f in os.listdir(
         download_folder) if f.endswith('.csv')]
@@ -65,57 +43,17 @@ def download_new():
     # loop csv links and download files not yet downloaded
     for link in csv_links:
         if link not in downloaded_files:
+
             wget.download(url+link, out=download_folder, bar=None)
 
+def get_folder_path(filename, base_path):
+    match = re.search(r"dwbf(\w+)(\d{8}).csv", filename)
+    if match:
+        country_code = match.group(1)[:3]  # Extract the first three letters for country code
+        date = datetime.datetime.strptime(match.group(2), '%d%m%Y')
+        return os.path.join(base_path, country_code, str(date.year), f"{date.month:02d}")
+    return None
 
-# 4th download option:
-# Download most recent files. From oldest file in download folder from dates in file names
-def download_newest():
-    # Get list of all CSV files already downloaded
-    downloaded_files = [f for f in os.listdir(
-        download_folder) if f.endswith('.csv')]
-
-    # Get most recent file date based on DDMMYYYY in filename
-    most_recent_file = max(
-        downloaded_files, key=lambda x: datetime.datetime.strptime(x[-12:-4], '%d%m%Y'))
-
-    # Loop csv file links
-    for link in csv_links:
-
-        # Extract date from filename
-        file_date = datetime.datetime.strptime(
-            link[-12:-4], '%d%m%Y')
-
-        # Download the file if it falls within the date range
-        if file_date > datetime.datetime.strptime(most_recent_file[-12:-4], '%d%m%Y') and link not in downloaded_files:
-            wget.download(url+link, download_folder, bar=None)
-        else:
-            # Break loop if file is older
-            break
-
-
-# Wrap all options into a function for user selection option
-def download_files():
-    print('1. Download all files')
-    print('2. Download files between a date range')
-    print('3. Download all files not yet downloaded')
-    print('4. Download newer files not yet downloaded from most recent file in download folder')
-    # User selection option
-    option = int(input('Enter option: '))
-    if option == 1:
-        download_all()
-    elif option == 2:
-        start_date = datetime.datetime.strptime(
-            input('Enter start date (DDMMYYYY): '), '%d%m%Y')
-        end_date = datetime.datetime.strptime(
-            input('Enter end date (DDMMYYYY): '), '%d%m%Y')
-        download_range(start_date, end_date)
-    elif option == 3:
-        download_new()
-    elif option == 4:
-        download_newest()
-    else:
-        print('Invalid option')
 
 
 # Run the script
@@ -128,8 +66,3 @@ if __name__ == "__main__":
     dd.delete_files_not_ending_with_csv(download_folder)
     dd.delete_files_with_parentheses(download_folder)
 
-
-end = time.perf_counter()
-print(end - start)
-
-""" This script allows for user input to choose download option """
