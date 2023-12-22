@@ -5,47 +5,15 @@ import os
 import delete_duplicates as dd
 import re
 import datetime
-
+import json
 
 # Website URL
 url = 'https://promo.betfair.com/betfairsp/prices/'
 
-# Github actions workflow folder destination
-# download_folder = 'data/'
-
-# local pc  path
-download_folder = './data'  # Adjust the path as necessary
+# local pc path
 base_path = './data'  # Adjust the path as necessary
 
-# Codespace folder destination
-# download_folder = '/workspaces/betfair_sp/data'
-
-# GET request to webpage to retrieve  HTML content
-response = requests.get(url)
-
-# Parse HTML with  lxml library's html module
-doc = html.fromstring(response.text)
-
-# Step: Extract  text from HTML
-text = doc.text_content()
-
-# Create list of csv files
-csv_links = [word for word in text.split() if word.endswith('.csv')]
-
-
-# Download files not yet downloaded. BSP webpage has more than 50k files.
-# todo update code to check for latest file names and not all csv files listed on BSP page
-def download_old():
-    # Get list of all CSV files already downloaded
-    downloaded_files = [f for f in os.listdir(
-        download_folder) if f.endswith('.csv')]
-
-    # loop csv links and download files not yet downloaded
-    for link in csv_links:
-        if link not in downloaded_files:
-
-            wget.download(url+link, out=download_folder, bar=None)
-
+# Function to determine the correct folder path based on the filename
 def get_folder_path(filename, base_path):
     match = re.search(r"dwbf(\w+)(\d{8}).csv", filename)
     if match:
@@ -54,7 +22,40 @@ def get_folder_path(filename, base_path):
         return os.path.join(base_path, country_code, str(date.year), f"{date.month:02d}")
     return None
 
+# Function to read downloaded files from JSON
+def read_downloaded_files(file_path):
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as file:
+            return set(json.load(file))
+    return set()
 
+# Function to save downloaded files to JSON
+def save_downloaded_files(file_path, downloaded_files):
+    with open(file_path, 'w') as file:
+        json.dump(list(downloaded_files), file)
+
+# Download new files function
+def download_new():
+    downloaded_files_file = os.path.join(base_path, 'downloaded_files.json')
+    downloaded_files = read_downloaded_files(downloaded_files_file)
+
+    # GET request to webpage to retrieve HTML content
+    response = requests.get(url)
+    # Parse HTML with lxml library's html module
+    doc = html.fromstring(response.text)
+    # Extract text from HTML
+    csv_links = [word for word in doc.text_content().split() if word.endswith('.csv')]
+
+    # Loop csv links and download files not yet downloaded
+    for link in csv_links:
+        if link not in downloaded_files:
+            folder_path = get_folder_path(link, base_path)
+            if folder_path:
+                os.makedirs(folder_path, exist_ok=True)
+                wget.download(url + link, out=os.path.join(folder_path, link), bar=None)
+                downloaded_files.add(link)
+    
+    save_downloaded_files(downloaded_files_file, downloaded_files)
 
 # Run the script
 if __name__ == "__main__":
@@ -63,6 +64,5 @@ if __name__ == "__main__":
     download_new()
 
     # delete any duplicates in github repo
-    dd.delete_files_not_ending_with_csv(download_folder)
-    dd.delete_files_with_parentheses(download_folder)
-
+    dd.delete_files_not_ending_with_csv(base_path)
+    dd.delete_files_with_parentheses(base_path)
