@@ -1,3 +1,7 @@
+## Update 2024
+- files into folder structure currently being changed
+- new files will be downloaded to these folders
+
 # betfair_sp
 
 ## data Folder
