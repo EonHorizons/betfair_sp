@@ -1,22 +1,25 @@
-## Update 2024
-- files into folder structure currently being changed
-- new files will be downloaded to these folders
+# Coming in 2024
+- Data for various sports into organised a folder structure (by end of jan 2024)
+- Additional sports data for struggling soccer, noble cricket and battling tennis
 
-# betfair_sp
+## Sports Data 
+- Greyhound Racing
+- Horse Racing
+- Soccer (Coming 2024)
+- Tennis (Coming 2024)
+- Cricket (Coming 2024)
 
-## data Folder
+### Code
+Python code to download data from sources @ repo:
 
-contains the csv files downloaded from url below through actions workflow
+### Data sources from
+https://promo.betfair.com/betfairsp/prices
 
-## main.py
 
-contains the python code to download these files from https://promo.betfair.com/betfairsp/prices
-
-## kaggle.com data location
+### Additional data download locations
 
 https://www.kaggle.com/datasets/eonsky/betfair-sp
-kaggle.com location updated daily
 
-Further updates will provide:
 
-- advanced code for data cleaning and preparation of csv files in python / pandas
+#### Contact
+For additional updates or requests pelase contact (email address to follow by february 2024) 
