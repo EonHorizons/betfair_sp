@@ -15,12 +15,21 @@ base_path = './data'  # Adjust the path as necessary
 
 # Function to determine the correct folder path based on the filename
 def get_folder_path(filename, base_path):
-    match = re.search(r"dwbf(\w+)(\d{8}).csv", filename)
-    if match:
-        country_code = match.group(1)[:3]  # Extract the first three letters for country code
-        date = datetime.datetime.strptime(match.group(2), '%d%m%Y')
-        return os.path.join(base_path, country_code, str(date.year), f"{date.month:02d}")
+    if 'greyhound' in filename:
+        # Greyhound files structure: data/greyhound/year/month
+        match = re.search(r"dwbfgreyhound(win|place|placed)(\d{8}).csv", filename)
+        if match:
+            date = datetime.datetime.strptime(match.group(2), '%d%m%Y')
+            return os.path.join(base_path, 'greyhound', str(date.year), f"{date.month:02d}")
+    else:
+        # Horse racing files structure: data/horse/country/year/month
+        match = re.search(r"dwbfprices(\w+)(win|place|placed)(\d{8}).csv", filename)
+        if match:
+            country_code = match.group(1)
+            date = datetime.datetime.strptime(match.group(3), '%d%m%Y')
+            return os.path.join(base_path, 'horse', country_code, str(date.year), f"{date.month:02d}")
     return None
+
 
 # Function to read downloaded files from JSON
 def read_downloaded_files(file_path):

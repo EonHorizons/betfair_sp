@@ -8,14 +8,14 @@ import datetime
 
 
 # Website URL
-url = 'https://promo.betfair.com/betfairsp/prices/'
+url = 'promo.betfair.com/betfairsp/prices/'
 
 # Github actions workflow folder destination
 # download_folder = 'data/'
 
 # local pc  path
-download_folder = './data'  # Adjust the path as necessary
-base_path = './data'  # Adjust the path as necessary
+download_folder = './data/test'  # Adjust the path as necessary
+base_path = './data/test'  # Adjust the path as necessary
 
 # Codespace folder destination
 # download_folder = '/workspaces/betfair_sp/data'
@@ -35,7 +35,7 @@ csv_links = [word for word in text.split() if word.endswith('.csv')]
 
 # Download files not yet downloaded. BSP webpage has more than 50k files.
 # todo update code to check for latest file names and not all csv files listed on BSP page
-def download_old():
+def download_new():
     # Get list of all CSV files already downloaded
     downloaded_files = [f for f in os.listdir(
         download_folder) if f.endswith('.csv')]
@@ -45,6 +45,7 @@ def download_old():
         if link not in downloaded_files:
 
             wget.download(url+link, out=download_folder, bar=None)
+
 
 def get_folder_path(filename, base_path):
     match = re.search(r"dwbf(\w+)(\d{8}).csv", filename)
