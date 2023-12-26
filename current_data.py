@@ -1,8 +1,24 @@
 import os
 import json
 
-def create_nested_structure_for_files(root_path):
+
+def create_nested_structure_for_greyhound_files(root_path):
     nested_structure = {}
+    for year in os.listdir(root_path):
+        year_path = os.path.join(root_path, year)
+        if os.path.isdir(year_path):
+            nested_structure[year] = {}
+            for month in os.listdir(year_path):
+                month_path = os.path.join(year_path, month)
+                if os.path.isdir(month_path):
+                    files = [f for f in os.listdir(month_path) if f.endswith('.csv')]
+                    nested_structure[year][month] = files
+    return nested_structure
+
+
+def create_nested_structure_for_horse_files(root_path):
+    nested_structure = {}
+    print(f"Scanning directory: {root_path}")  # Debugging print
     for first_level in os.listdir(root_path):
         first_level_path = os.path.join(root_path, first_level)
         if os.path.isdir(first_level_path):
@@ -16,23 +32,28 @@ def create_nested_structure_for_files(root_path):
                         if os.path.isdir(third_level_path):
                             files = [f for f in os.listdir(third_level_path) if f.endswith('.csv')]
                             nested_structure[first_level][second_level][third_level] = files
+                            if not files:  # Debugging print
+                                print(f"No CSV files found in {third_level_path}")
     return nested_structure
 
 def create_data_folder_json(data_folder_path, output_json_path):
     structured_files = {"greyhound": {}, "horse": {}}
 
-    # Nested structure for both greyhound and horse files
+    # Greyhound files with simplified structure
     greyhound_path = os.path.join(data_folder_path, "greyhound")
-    structured_files["greyhound"] = create_nested_structure_for_files(greyhound_path)
+    structured_files["greyhound"] = create_nested_structure_for_greyhound_files(greyhound_path)
 
+    # Horse files with nested structure (not changed)
     horse_path = os.path.join(data_folder_path, "horse")
-    structured_files["horse"] = create_nested_structure_for_files(horse_path)
+    structured_files["horse"] = create_nested_structure_for_horse_files(horse_path)
 
-    # Save the structured list to a JSON file
     with open(output_json_path, 'w') as file:
         json.dump(structured_files, file)
 
     print(f"Saved data folder content to {output_json_path}")
+
+
+
 
 # Path to the data folder
 data_folder_path = './data'
