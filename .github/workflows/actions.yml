@@ -3,10 +3,6 @@ name: Get BSP Files Yaml
 on:
   schedule:
     - cron: "11 0 * * *" # At 00:11
-  push:
-    branches:
-      - main  # or any other branch you want to trigger on push
-
     
 
 jobs:
