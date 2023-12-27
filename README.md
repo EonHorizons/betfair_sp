@@ -1,6 +1,6 @@
 # Coming in 2024
 - Data for various sports into organised a folder structure (by end of jan 2024)
-- Additional sports data for struggling soccer, noble cricket and battling tennis
+- Additional sports data for soccer, cricket and tennis.
 
 ## Sports Data 
 - Greyhound Racing
@@ -12,14 +12,14 @@
 ### Code
 Python code to download data from sources @ repo:
 
-### Data sources from
-https://promo.betfair.com/betfairsp/prices
+## Data sources from
+### Horse & Greyhound from 
+- https://promo.betfair.com/betfairsp/prices
 
 
-### Additional data download locations
-
+### Additional data download location
 https://www.kaggle.com/datasets/eonsky/betfair-sp
 
 
 #### Contact
-For additional updates or requests pelase contact (email address to follow by february 2024) 
+For additional updates or requests contact email: (to follow by February 2024) 

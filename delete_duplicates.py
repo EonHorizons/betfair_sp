@@ -1,18 +1,5 @@
 import os
 
-
-# Github repo folder destination
-# download_folder = 'data/'
-
-# Codespace folder ??
-# download_folder = '/workspaces/betfair_sp/data'
-
-# local pc path
-download_folder = './data'
-
-# Github Actions Path
-# base_path = 'data/'
-
 def delete_files_with_parentheses(directory):
     """ Deletes all files in the given directory and subdirectories whose name contains parentheses. """
     for root, dirs, files in os.walk(directory):
@@ -31,10 +18,19 @@ def delete_files_not_ending_with_csv(directory):
                 os.remove(file_path)
                 print(f"Deleted file: {file_path}")
 
-if __name__ == "__main__":
-    # Path to the data folder
-    download_folder = './data'  # Adjust the path as necessary
+
+def delete_unwanted_files():
+
+    # ? local pc path
+    # download_folder = './data'
+    # ? Github Actions Path
+    download_folder = 'data/'
 
     delete_files_with_parentheses(download_folder)
     delete_files_not_ending_with_csv(download_folder)
+
+
+
+if __name__ == "__main__":
+    delete_unwanted_files()
 

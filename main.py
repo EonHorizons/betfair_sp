@@ -1,17 +1,14 @@
-import requests
-from lxml import html
 import wget
 import os
-import delete_duplicates as dd
 import re
 import datetime
 import json
+import delete_duplicates as dd
+from icecream import ic
+import get_bsp_files as bsp
+import current_data as cd
+import compare_json as cj
 
-# Website URL
-url = 'https://promo.betfair.com/betfairsp/prices/'
-
-# local pc path
-base_path = './data'  # Adjust the path as necessary
 
 # Function to determine the correct folder path based on the filename
 def get_folder_path(filename, base_path):
@@ -20,7 +17,7 @@ def get_folder_path(filename, base_path):
         match = re.search(r"dwbfgreyhound(win|place|placed)(\d{8}).csv", filename)
         if match:
             date = datetime.datetime.strptime(match.group(2), '%d%m%Y')
-            return os.path.join(base_path, 'greyhound', str(date.year), f"{date.month:02d}")
+            return os.path.join(base_path, str(date.year), f"{date.month:02d}")
     else:
         # Horse racing files structure: data/horse/country/year/month
         match = re.search(r"dwbfprices(\w+)(win|place|placed)(\d{8}).csv", filename)
@@ -30,48 +27,53 @@ def get_folder_path(filename, base_path):
             return os.path.join(base_path, 'horse', country_code, str(date.year), f"{date.month:02d}")
     return None
 
+# Function to load missing files from JSON
+def load_missing_files(file_path):
+    with open(file_path, 'r') as file:
+        return json.load(file)
 
-# Function to read downloaded files from JSON
-def read_downloaded_files(file_path):
-    if os.path.exists(file_path):
-        with open(file_path, 'r') as file:
-            return set(json.load(file))
-    return set()
+# Function to download files
+def download_files(file_list, base_path, url):
+    for sport_type, files in file_list.items():
+        for file in files:
+            # Correctly form the download path based on the sport type
+            if sport_type == 'greyhound':
+                download_path = get_folder_path(file, os.path.join(base_path, sport_type))
+            else:  # For horse and other types
+                download_path = get_folder_path(file, base_path)
+            if download_path:
+                os.makedirs(download_path, exist_ok=True)
+                file_url = url + file
+                try:
+                    wget.download(file_url, out=os.path.join(download_path, file), bar=wget.bar_adaptive)
+                except Exception as e:
+                    ic(f"Failed to download {file_url}: {e}")
 
-# Function to save downloaded files to JSON
-def save_downloaded_files(file_path, downloaded_files):
-    with open(file_path, 'w') as file:
-        json.dump(list(downloaded_files), file)
-
-# Download new files function
-def download_new():
-    downloaded_files_file = os.path.join(base_path, 'downloaded_files.json')
-    downloaded_files = read_downloaded_files(downloaded_files_file)
-
-    # GET request to webpage to retrieve HTML content
-    response = requests.get(url)
-    # Parse HTML with lxml library's html module
-    doc = html.fromstring(response.text)
-    # Extract text from HTML
-    csv_links = [word for word in doc.text_content().split() if word.endswith('.csv')]
-
-    # Loop csv links and download files not yet downloaded
-    for link in csv_links:
-        if link not in downloaded_files:
-            folder_path = get_folder_path(link, base_path)
-            if folder_path:
-                os.makedirs(folder_path, exist_ok=True)
-                wget.download(url + link, out=os.path.join(folder_path, link), bar=None)
-                downloaded_files.add(link)
-    
-    save_downloaded_files(downloaded_files_file, downloaded_files)
 
 # Run the script
 if __name__ == "__main__":
 
-    # Download files not yet downloaded - Github actions workflow option only.
-    download_new()
+    # Website URL
+    url = 'https://promo.betfair.com/betfairsp/prices/'
 
-    # delete any duplicates in github repo
-    dd.delete_files_not_ending_with_csv(base_path)
-    dd.delete_files_with_parentheses(base_path)
+    # ? local pc path
+    # base_path = './data'
+    # ? Github Actions Path
+    base_path = 'data/'
+
+    # Get BSP website updated file list 
+    bsp.create_webpage_data_json()
+    # get current data folder file list
+    cd.create_data_folder_json()
+    # get missing files list
+    cj.compare_files()
+
+    # Load missing files list
+    missing_files_path = os.path.join(base_path, 'missing_files.json')
+    missing_files = load_missing_files(missing_files_path)
+
+    # Download missing files
+    download_files(missing_files, base_path, url)
+
+    # Delete any duplicates in the GitHub repo
+    dd.delete_unwanted_files()

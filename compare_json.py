@@ -9,12 +9,12 @@ def find_missing_files():
 
     # ? Load JSON files
     # ? Local Path
-    webpage_json = load_json_file('./data/webpage_data.json')
-    local_data_json = load_json_file('./data/data_folder_files.json')
+    # webpage_json = load_json_file('./data/webpage_data.json')
+    # local_data_json = load_json_file('./data/data_folder_files.json')
 
     # ? Github Path
-    # webpage_json = load_json_file('data/webpage_data.json')
-    # local_data_json = load_json_file('data/data_folder_files.json')
+    webpage_json = load_json_file('data/webpage_data.json')
+    local_data_json = load_json_file('data/data_folder_files.json')
 
 
     missing_files = {"greyhound": [], "horse": []}
@@ -47,10 +47,10 @@ def compare_files():
 
     # ? Save the missing files as JSON
     # ?Local Path
-    missing_files_json_path = './data/missing_files.json'
+    # missing_files_json_path = './data/missing_files.json'
 
     # ?Github Actions Path
-    # missing_files_json_path = 'data/missing_files.json'
+    missing_files_json_path = 'data/missing_files.json'
     
     save_json_file(missing_files, missing_files_json_path)
 

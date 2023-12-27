@@ -6,11 +6,11 @@ def create_webpage_data_json():
 
     # ? JSON file path for Betfair Starting Price file list
 
-    # Local Path
-    output_json_path = './data/webpage_data.json'
+    # ? Local Path
+    # output_json_path = './data/webpage_data.json'
 
-    # Github Path
-    # output_json_path = 'data/webpage_data.json'
+    # ? Github Path
+    output_json_path = 'data/webpage_data.json'
 
     # URL of the Betfair Starting Price (BSP) webpage
     url = 'https://promo.betfair.com/betfairsp/prices'

@@ -43,12 +43,11 @@ def create_data_folder_json():
     data_folder_path = './data'
 
     # ? JSON file path for existing files downloaded
-    
-    # Local Path 
-    output_json_path = './data/data_folder_files.json'
+    # ? Local Path 
+    # output_json_path = './data/data_folder_files.json'
 
-    # Github Path
-    # output_json_path = 'data/data_folder_files.json'
+    # ? Github Path
+    output_json_path = 'data/data_folder_files.json'
 
     structured_files = {"greyhound": {}, "horse": {}}
 
