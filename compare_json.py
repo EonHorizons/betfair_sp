@@ -4,7 +4,19 @@ def load_json_file(file_path):
     with open(file_path, 'r') as file:
         return json.load(file)
 
-def find_missing_files(webpage_json, local_data_json):
+def find_missing_files():
+
+
+    # ? Load JSON files
+    # ? Local Path
+    webpage_json = load_json_file('./data/webpage_data.json')
+    local_data_json = load_json_file('./data/data_folder_files.json')
+
+    # ? Github Path
+    # webpage_json = load_json_file('data/webpage_data.json')
+    # local_data_json = load_json_file('data/data_folder_files.json')
+
+
     missing_files = {"greyhound": [], "horse": []}
 
     # Extract all local file paths for greyhound and horse
@@ -23,23 +35,31 @@ def find_missing_files(webpage_json, local_data_json):
 
     return missing_files
 
+
 def save_json_file(data, file_path):
     with open(file_path, 'w') as file:
         json.dump(data, file)
 
-# Load JSON files
-webpage_data = load_json_file('./data/webpage_data.json')
-local_data = load_json_file('./data/data_folder_files.json')
 
-# Find missing files
-missing_files = find_missing_files(webpage_data, local_data)
+def compare_files():
+    # Find missing files
+    missing_files = find_missing_files()
 
-# Save the missing files as JSON
-missing_files_json_path = './data/missing_files.json'
-save_json_file(missing_files, missing_files_json_path)
+    # ? Save the missing files as JSON
+    # ?Local Path
+    missing_files_json_path = './data/missing_files.json'
 
-print(f"Missing files saved to {missing_files_json_path}")
+    # ?Github Actions Path
+    # missing_files_json_path = 'data/missing_files.json'
+    
+    save_json_file(missing_files, missing_files_json_path)
 
-# Output the missing files
-print("Missing Greyhound Files:", missing_files["greyhound"])
-print("Missing Horse Files:", missing_files["horse"])
+    print(f"Missing files saved to {missing_files_json_path}")
+
+    # Output the missing files
+    print("Missing Greyhound Files:", missing_files["greyhound"])
+    print("Missing Horse Files:", missing_files["horse"])
+
+
+if __name__ == "__main__":
+    compare_files()

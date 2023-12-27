@@ -4,6 +4,7 @@ import json
 
 def create_nested_structure_for_greyhound_files(root_path):
     nested_structure = {}
+    print(f"Scanning directory: {root_path}")  # Debugging print
     for year in os.listdir(root_path):
         year_path = os.path.join(root_path, year)
         if os.path.isdir(year_path):
@@ -36,7 +37,19 @@ def create_nested_structure_for_horse_files(root_path):
                                 print(f"No CSV files found in {third_level_path}")
     return nested_structure
 
-def create_data_folder_json(data_folder_path, output_json_path):
+def create_data_folder_json():
+        
+    # Path to the data folder
+    data_folder_path = './data'
+
+    # ? JSON file path for existing files downloaded
+    
+    # Local Path 
+    output_json_path = './data/data_folder_files.json'
+
+    # Github Path
+    # output_json_path = 'data/data_folder_files.json'
+
     structured_files = {"greyhound": {}, "horse": {}}
 
     # Greyhound files with simplified structure
@@ -53,13 +66,7 @@ def create_data_folder_json(data_folder_path, output_json_path):
     print(f"Saved data folder content to {output_json_path}")
 
 
+if __name__ == "__main__":
 
-
-# Path to the data folder
-data_folder_path = './data'
-
-# JSON file path to store the structured list of files from the data folder
-output_json_path = './data/data_folder_files.json'
-
-# Run the script
-create_data_folder_json(data_folder_path, output_json_path)
+    # Run the script
+    create_data_folder_json()
