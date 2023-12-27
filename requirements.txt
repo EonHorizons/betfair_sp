@@ -1,3 +1,4 @@
 lxml==4.9.2
 requests==2.31.0
 wget==3.2
+icecream==2.1.3
