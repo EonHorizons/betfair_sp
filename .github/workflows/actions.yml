@@ -1,4 +1,4 @@
-name: Python Yaml
+name: Get BSP Files Yaml
 
 on:
   schedule:
