@@ -16,7 +16,12 @@ def create_webpage_data_json():
     url = 'https://promo.betfair.com/betfairsp/prices'
 
     # Headers with User-Agent
-    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+    headers = {
+        'Origin' : 'https://promo.betfair.com',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+        'Referer' : 'https://promo.betfair.com/'
+        }
+
 
     # GET request to webpage to retrieve HTML content
     response = requests.get(url, headers=headers)
