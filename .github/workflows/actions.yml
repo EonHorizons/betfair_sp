@@ -1,8 +1,9 @@
 name: Get BSP Files Yaml
 
 on:
-  schedule:
-    - cron: "11 0 * * *" # At 00:11
+  push
+  # schedule:
+    # - cron: "11 0 * * *" # At 00:11
     
 
 jobs:
