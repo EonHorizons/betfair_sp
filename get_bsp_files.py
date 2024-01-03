@@ -15,8 +15,11 @@ def create_webpage_data_json():
     # URL of the Betfair Starting Price (BSP) webpage
     url = 'https://promo.betfair.com/betfairsp/prices'
 
+    # Headers with User-Agent
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+
     # GET request to webpage to retrieve HTML content
-    response = requests.get(url)
+    response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
         raise Exception(f"Failed to fetch webpage: Status code {response.status_code}")
