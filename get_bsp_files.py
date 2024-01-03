@@ -17,7 +17,7 @@ def create_webpage_data_json():
     url = 'https://promo.betfair.com/betfairsp/prices'
 
         # Headers with User-Agent
-    headers = {  
+    headers = {
     'Origin' : 'https://promo.betfair.com',
     'Referer' : 'https://promo.betfair.com/',
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36'}
