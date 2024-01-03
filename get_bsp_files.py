@@ -18,8 +18,8 @@ def create_webpage_data_json():
     # GET request to webpage to retrieve HTML content
     response = requests.get(url)
 
-    # if response.status_code != 200:
-    #     raise Exception(f"Failed to fetch webpage: Status code {response.status_code}")
+    if response.status_code != 200:
+        raise Exception(f"Failed to fetch webpage: Status code {response.status_code}")
 
     # Parse HTML with lxml library's html module
     doc = html.fromstring(response.text)

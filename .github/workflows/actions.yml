@@ -27,8 +27,8 @@ jobs:
         working-directory: ${{ github.workspace }} #update working directory
         run: python main.py
         
-      - name: List files 
-        run: ls -lR
+      # - name: List files 
+      #   run: ls -lR
 
       - name: Commit and push changes
         run: |
