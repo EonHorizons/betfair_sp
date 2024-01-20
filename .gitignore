@@ -1,3 +1,5 @@
+# processed data folder
+data_processed/
 
 # test
 test.py
