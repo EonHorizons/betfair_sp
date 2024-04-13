@@ -13,17 +13,17 @@ def find_missing_files():
     # local_data_json = load_json_file('./data/data_folder_files.json')
 
     # ? Github Path
-    webpage_json = load_json_file('data/webpage_data.json')
-    local_data_json = load_json_file('data/data_folder_files.json')
+    webpage_json = load_json_file('data_original/webpage_data.json')
+    local_data_json = load_json_file('data_original/data_folder_files.json')
 
 
     missing_files = {"greyhound": [], "horse": []}
 
     # Extract all local file paths for greyhound and horse
-    local_greyhound_files = sum([month_files for year in local_data_json["greyhound"].values() 
+    local_greyhound_files = sum([month_files for year in local_data_json["greyhound"].values()
                                  for month_files in year.values()], [])
-    local_horse_files = sum([month_files for country in local_data_json["horse"].values() 
-                             for year in country.values() 
+    local_horse_files = sum([month_files for country in local_data_json["horse"].values()
+                             for year in country.values()
                              for month_files in year.values()], [])
 
     # Compare with webpage files
@@ -50,8 +50,8 @@ def compare_files():
     # missing_files_json_path = './data/missing_files.json'
 
     # ?Github Actions Path
-    missing_files_json_path = 'data/missing_files.json'
-    
+    missing_files_json_path = 'data_original/missing_files.json'
+
     save_json_file(missing_files, missing_files_json_path)
 
     print(f"Missing files saved to {missing_files_json_path}")

@@ -1,5 +1,6 @@
 # processed data folder
 data_processed/
+data_pandas/
 
 # test
 test.py

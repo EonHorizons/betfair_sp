@@ -57,11 +57,11 @@ if __name__ == "__main__":
     url = 'https://promo.betfair.com/betfairsp/prices/'
 
     # ? local pc path
-    # base_path = './data'
+    base_path = './data_original'
     # ? Github Actions Path
-    base_path = 'data/'
+    # base_path = 'data_original/'
 
-    # Get BSP website updated file list 
+    # Get BSP website updated file list
     bsp.create_webpage_data_json()
     # get current data folder file list
     cd.create_data_folder_json()

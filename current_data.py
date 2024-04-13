@@ -38,16 +38,16 @@ def create_nested_structure_for_horse_files(root_path):
     return nested_structure
 
 def create_data_folder_json():
-        
+
     # Path to the data folder
-    data_folder_path = './data'
+    data_folder_path = './data_original'
 
     # ? JSON file path for existing files downloaded
-    # ? Local Path 
+    # ? Local Path
     # output_json_path = './data/data_folder_files.json'
 
     # ? Github Path
-    output_json_path = 'data/data_folder_files.json'
+    output_json_path = 'data_original/data_folder_files.json'
 
     structured_files = {"greyhound": {}, "horse": {}}
 

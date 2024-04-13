@@ -19,6 +19,6 @@ def save_downloaded_files(file_path, downloaded_files):
 
 # Run the script to generate initial JSON
 if __name__ == "__main__":
-    base_path = './data'  # Adjust this to your data directory path
+    base_path = './data_original'  # Adjust this to your data directory path
     json_file_path = os.path.join(base_path, 'downloaded_files.json')
     generate_initial_downloaded_files_json(base_path, json_file_path)
