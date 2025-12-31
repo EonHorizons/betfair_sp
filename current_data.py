@@ -1,5 +1,6 @@
 import os
 import json
+import config
 
 
 def create_nested_structure_for_greyhound_files(root_path):
@@ -38,31 +39,22 @@ def create_nested_structure_for_horse_files(root_path):
     return nested_structure
 
 def create_data_folder_json():
-
-    # Path to the data folder
-    data_folder_path = './data_original'
-
-    # ? JSON file path for existing files downloaded
-    # ? Local Path
-    # output_json_path = './data/data_folder_files.json'
-
-    # ? Github Path
-    output_json_path = 'data_original/data_folder_files.json'
+    """Scan the data directory and create a JSON file with the folder structure."""
 
     structured_files = {"greyhound": {}, "horse": {}}
 
     # Greyhound files with simplified structure
-    greyhound_path = os.path.join(data_folder_path, "greyhound")
-    structured_files["greyhound"] = create_nested_structure_for_greyhound_files(greyhound_path)
+    if os.path.exists(config.GREYHOUND_DIR):
+        structured_files["greyhound"] = create_nested_structure_for_greyhound_files(config.GREYHOUND_DIR)
 
-    # Horse files with nested structure (not changed)
-    horse_path = os.path.join(data_folder_path, "horse")
-    structured_files["horse"] = create_nested_structure_for_horse_files(horse_path)
+    # Horse files with nested structure
+    if os.path.exists(config.HORSE_DIR):
+        structured_files["horse"] = create_nested_structure_for_horse_files(config.HORSE_DIR)
 
-    with open(output_json_path, 'w') as file:
+    with open(config.DATA_FOLDER_JSON, 'w') as file:
         json.dump(structured_files, file)
 
-    print(f"Saved data folder content to {output_json_path}")
+    print(f"Saved data folder content to {config.DATA_FOLDER_JSON}")
 
 
 if __name__ == "__main__":

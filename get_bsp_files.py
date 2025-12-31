@@ -1,30 +1,17 @@
 import requests
 from lxml import html
 import json
+import config
 
 
 def create_webpage_data_json():
+    """Fetch the list of available BSP files from Betfair website and save to JSON."""
 
-    # ? JSON file path for Betfair Starting Price file list
-
-    # ? Local Path
-    # output_json_path = './data/webpage_data.json'
-
-    # ? Github Path
-    output_json_path = 'data_original/webpage_data.json'
-
-    # URL of the Betfair Starting Price (BSP) webpage
-    url = 'https://promo.betfair.com/betfairsp/prices'
-
-        # Headers with User-Agent
-    headers = {
-    'Origin' : 'https://promo.betfair.com',
-    'Referer' : 'https://promo.betfair.com/',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36'}
-
+    # URL of the Betfair Starting Price (BSP) webpage (without trailing slash for page)
+    url = config.BETFAIR_BSP_URL.rstrip('/')
 
     # GET request to webpage to retrieve HTML content
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=config.REQUEST_HEADERS)
 
     if response.status_code != 200:
         raise Exception(f"Failed to fetch webpage: Status code {response.status_code}")
@@ -36,10 +23,10 @@ def create_webpage_data_json():
     csv_links = [word for word in doc.text_content().split() if word.endswith('.csv')]
 
     # Save the list to a JSON file
-    with open(output_json_path, 'w') as file:
+    with open(config.WEBPAGE_DATA_JSON, 'w') as file:
         json.dump(csv_links, file)
 
-    print(f"Saved webpage data to {output_json_path}")
+    print(f"Saved webpage data to {config.WEBPAGE_DATA_JSON}")
 
 
 if __name__ == "__main__":
