@@ -8,6 +8,7 @@ from icecream import ic
 import get_bsp_files as bsp
 import current_data as cd
 import compare_json as cj
+import config
 
 
 # Function to determine the correct folder path based on the filename
@@ -53,13 +54,8 @@ def download_files(file_list, base_path, url):
 # Run the script
 if __name__ == "__main__":
 
-    # Website URL
-    url = 'https://promo.betfair.com/betfairsp/prices/'
-
-    # ? local pc path
-    base_path = './data_original'
-    # ? Github Actions Path
-    # base_path = 'data_original/'
+    # Ensure data directories exist
+    config.ensure_data_dirs_exist()
 
     # Get BSP website updated file list
     bsp.create_webpage_data_json()
@@ -69,11 +65,10 @@ if __name__ == "__main__":
     cj.compare_files()
 
     # Load missing files list
-    missing_files_path = os.path.join(base_path, 'missing_files.json')
-    missing_files = load_missing_files(missing_files_path)
+    missing_files = load_missing_files(config.MISSING_FILES_JSON)
 
     # Download missing files
-    download_files(missing_files, base_path, url)
+    download_files(missing_files, config.DATA_DIR, config.BETFAIR_BSP_URL)
 
     # Delete any duplicates in the GitHub repo
     dd.delete_unwanted_files()
